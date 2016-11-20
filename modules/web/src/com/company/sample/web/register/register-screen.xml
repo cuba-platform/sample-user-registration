@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/window.xsd"
+        caption="msg://caption"
+        class="com.company.sample.web.register.RegisterScreen"
+        messagesPack="com.company.sample.web.register">
+    <dialogMode width="400"/>
+    <layout>
+        <grid align="MIDDLE_CENTER"
+              spacing="true">
+            <columns count="2"/>
+            <rows>
+                <row>
+                    <label value="Login"/>
+                    <textField id="loginField"
+                               required="true"/>
+                </row>
+                <row>
+                    <label value="Password"/>
+                    <passwordField id="passwordField"
+                                   required="true"/>
+                </row>
+                <row>
+                    <hbox align="MIDDLE_CENTER"
+                          colspan="2"
+                          spacing="true">
+                        <button id="okBtn"
+                                align="TOP_RIGHT"
+                                caption="OK"
+                                invoke="onOkBtnClick"/>
+                        <button id="cancelBtn"
+                                caption="Cancel"
+                                invoke="onCancelBtnClick"/>
+                    </hbox>
+                </row>
+            </rows>
+        </grid>
+    </layout>
+</window>
