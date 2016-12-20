@@ -6,4 +6,4 @@ This is a simple example of using anonymous access to an application, i.e. takin
 
 * [RegisterScreen](https://github.com/cuba-platform/sample-user-registration/blob/master/modules/web/src/com/company/sample/web/register/RegisterScreen.java) accepts new user credentials and creates a new user in the database with the specified group and role. 
 
-Based on CUBA Platform 6.3.4
+Based on CUBA Platform 6.3.5
