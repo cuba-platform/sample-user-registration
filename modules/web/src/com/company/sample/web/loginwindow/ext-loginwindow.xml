@@ -11,10 +11,14 @@
                 <grid id="loginFormLayout">
                     <rows>
                         <row>
-                            <label id="registerSpacer"/>
-                            <linkButton id="registerBtn"
-                                        caption="Register"
-                                        invoke="onRegisterBtnClick"/>
+                            <hbox colspan="2" align="MIDDLE_CENTER" spacing="true">
+                                <linkButton id="registerBtn"
+                                            caption="Register"
+                                            invoke="onRegisterBtnClick"/>
+                                <linkButton id="restorePasswordBtn"
+                                            caption="Restore password"
+                                            invoke="onRestorePasswordBtnClick"/>
+                            </hbox>
                         </row>
                     </rows>
                 </grid>
