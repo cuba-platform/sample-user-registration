@@ -28,7 +28,7 @@
                        on-cuba-form-response="_handleRegistration"></cuba-service-form>
 
     <paper-input label="User Name" value="{{username}}"></paper-input>
-    <paper-input label="Password" value="{{password}}"></paper-input>
+    <paper-input label="Password" value="{{password}}" type="password"></paper-input>
 
     <ul class="errors">
       <template is="dom-repeat" items="[[rawServerErrors]]">
@@ -36,7 +36,7 @@
       </template>
     </ul>
 
-    <paper-button raised on-tap="_registerUser" class="reg-button">Register New User</paper-button>
+    <paper-button raised on-tap="_registerUser" class="reg-button" disabled="[[_isRegistrationDisabled(username,password)]]">Register New User</paper-button>
 
   </template> 
   <script>
@@ -68,6 +68,13 @@
 
         _handleRegistration() {
           this.dispatchEvent(new CustomEvent('sample-user-registered', {bubbles: true, composed: true}))
+        }
+
+        _isRegistrationDisabled(username, password) {
+          if (username && password) {
+            return false
+          }
+          return true;
         }
 
       }
