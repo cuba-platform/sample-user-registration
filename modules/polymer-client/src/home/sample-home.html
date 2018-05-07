@@ -1,0 +1,50 @@
+
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/cuba-app/cuba-localize-behavior.html">
+<link rel="import" href="../../bower_components/cuba-styles/cuba-styles.html">
+<link rel="import" href="../../bower_components/paper-card/paper-card.html">
+<link rel="import" href="../shared-styles.html">
+
+<dom-module id="sample-home">
+  <template>
+    <style include="cuba-styles"></style>
+    <style include="shared-styles"></style>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+    <paper-card heading="[[msg('welcomeHeading')]]" class="page-widget">
+      <div class="card-content">
+        [[msg('welcomeContent')]]
+      </div>
+    </paper-card>
+  </template>
+  <script>
+    {
+      /**
+       * @extends {Polymer.Element}
+       * @appliesMixin CubaLocalizeBehavior
+       */
+      class SampleHome extends Polymer.mixinBehaviors([CubaLocalizeBehavior], Polymer.Element) {
+
+        static get is() { return 'sample-home'; }
+
+        static get properties() {
+          return {
+            messages: {
+              value: {
+                en: {
+                  "welcomeHeading": "Welcome to sample",
+                  "welcomeContent": "Powered by CUBA Platform"
+                }
+              }
+            }
+          }
+        }
+      }
+
+      customElements.define(SampleHome.is, SampleHome);
+    }
+  </script>
+</dom-module>

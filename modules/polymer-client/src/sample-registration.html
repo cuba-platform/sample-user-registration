@@ -1,0 +1,85 @@
+<link rel="import" href="../bower_components/polymer/polymer.html"> 
+<link rel="import" href="../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/cuba-form/cuba-service-form.html">
+<link rel="import" href="shared-styles.html">
+<dom-module id="sample-registration"> 
+  <template> 
+    <style include="shared-styles"></style> 
+    <style>
+      :host {
+        display: block;
+      }
+      .errors {
+        color: red;
+      }
+      .reg-button {
+        background-color: var(--primary-color);
+        color: #FFF;
+        width: 100%;
+      }
+    </style>
+
+    <cuba-service-form id="regUserForm"
+                       service-name="sample_RegistrationService"
+                       method="registerUser"
+                       params="[[registrationParams]]"
+                       raw-server-errors="{{rawServerErrors}}"
+                       on-cuba-form-response="_handleRegistration"></cuba-service-form>
+
+    <paper-input label="User Name" value="{{username}}"></paper-input>
+    <paper-input label="Password" value="{{password}}" type="password"></paper-input>
+
+    <ul class="errors">
+      <template is="dom-repeat" items="[[rawServerErrors]]">
+        <li>[[item.message]]</li>
+      </template>
+    </ul>
+
+    <paper-button raised on-tap="_registerUser" class="reg-button" disabled="[[_isRegistrationDisabled(username,password)]]">Register New User</paper-button>
+
+  </template> 
+  <script>
+    {
+      class SampleRegistration extends Polymer.Element {
+
+        static get is() {
+          return 'sample-registration';
+        }
+
+        static get properties() {
+          return {
+            username: String,
+            password: String,
+            registrationParams: {
+              type: Object,
+              computed: '_computeRegistrationParams(username, password)'
+            }
+          }
+        }
+
+        _computeRegistrationParams(username, password) {
+          return {login: username, password};
+        }
+
+        _registerUser() {
+          this.shadowRoot.querySelector('#regUserForm').submit();
+        }
+
+        _handleRegistration() {
+          this.dispatchEvent(new CustomEvent('sample-user-registered', {bubbles: true, composed: true}))
+        }
+
+        _isRegistrationDisabled(username, password) {
+          if (username && password) {
+            return false
+          }
+          return true;
+        }
+
+      }
+
+      customElements.define(SampleRegistration.is, SampleRegistration);
+    }
+  </script> 
+</dom-module>

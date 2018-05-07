@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<services xmlns="http://schemas.haulmont.com/cuba/rest-services-v2.xsd">
+    <service name="sample_RegistrationService">
+        <method name="registerUser">
+            <param name="login"/>
+            <param name="password"/>
+        </method>
+    </service>
+</services>
