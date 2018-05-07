@@ -10,6 +10,7 @@
 <link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../bower_components/paper-input/paper-input.html">
 <link rel="import" href="../bower_components/paper-checkbox/paper-checkbox.html">
+<link rel="import" href="../bower_components/paper-dialog/paper-dialog.html">
 <link rel="import" href="../bower_components/cuba-app/cuba-app.html">
 <link rel="import" href="../bower_components/cuba-app/cuba-app-aware-behavior.html">
 <link rel="import" href="../bower_components/cuba-app/cuba-localize-behavior.html">
@@ -23,6 +24,7 @@
 <link rel="import" href="sample-menu.html">
 <link rel="import" href="sample-user-menu.html">
 <link rel="import" href="sample-login.html">
+<link rel="import" href="sample-registration.html">
 <link rel="import" href="home/sample-home.html">
 
 
@@ -107,6 +109,12 @@
       </app-drawer-layout>
     </template>
 
+    <paper-dialog id="registrationDialog" modal>
+      <sample-registration></sample-registration>
+    </paper-dialog>
+
+    <paper-toast id="registrationToast">User successfully registered</paper-toast>
+
   </template>
   <script>
     {
@@ -136,6 +144,13 @@
         ready() {
           super.ready();
           this.addEventListener('navigate', this._onNavigate);
+          this.addEventListener('sample-registration-clicked', () => {
+            this.shadowRoot.querySelector('#registrationDialog').open();
+          });
+          this.addEventListener('sample-user-registered', () => {
+            this.shadowRoot.querySelector('#registrationDialog').close();
+            this.shadowRoot.querySelector('#registrationToast').show();
+          })
         }
 
         _init(app) {

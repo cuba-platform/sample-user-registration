@@ -50,6 +50,14 @@
         background-color: var(--primary-color);
         color: #FFF;
       }
+
+      .additional-actions {
+        text-align: center;
+      }
+
+      .registration-link {
+        margin-top: 12px;
+      }
     </style>
     <div class="login-wrapper">
       <paper-card class="login-card">
@@ -60,10 +68,12 @@
             <paper-button slot="login-button" raised class="login-button">Login</paper-button>
           </cuba-login>
         </div>
+        <div class="additional-actions">
+          <a href="#" class="registration-link" on-tap="_handleRegisterLinkTap">[[msg('Register')]]</a>
+        </div>
       </paper-card>
       
       <sample-locale-select></sample-locale-select>
-      
     </div>
     <paper-toast id="loginError" horizontal-align="right">
       [[msg('Login failed')]]
@@ -83,6 +93,12 @@
         _handleLoginError() {
           this.$.loginError.show();
         }
+
+        _handleRegisterLinkTap(e) {
+          e.preventDefault();
+          this.dispatchEvent(new CustomEvent('sample-registration-clicked', {bubbles: true, composed: true}))
+        }
+
       }
 
       customElements.define(SampleLogin.is, SampleLogin);

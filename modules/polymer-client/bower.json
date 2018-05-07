@@ -38,5 +38,8 @@
   },
   "devDependencies": {
     "web-component-tester": "^6.0.0"
+  },
+  "resolutions": {
+    "iron-form": "1 - 2"
   }
 }
