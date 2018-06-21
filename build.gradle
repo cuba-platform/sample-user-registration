@@ -1,6 +1,6 @@
 
 buildscript {
-    ext.cubaVersion = '6.8.1'
+    ext.cubaVersion = '6.9.1'
     repositories {
         maven {
             url 'https://repo.cuba-platform.com/content/groups/work'
@@ -26,7 +26,7 @@ def guiModule = project(':app-gui')
 def webModule = project(':app-web')
 def polymerClientModule = project(':app-polymer-client')
 
-def servletApi = 'org.apache.tomcat:tomcat-servlet-api:8.0.26'
+def servletApi = 'javax.servlet:javax.servlet-api:3.1.0'
 
 
 apply(plugin: 'idea')
