@@ -11,3 +11,6 @@ This is a simple example of using anonymous access to an application, i.e. takin
 * [app.properties](https://github.com/cuba-platform/sample-user-registration/blob/master/modules/core/src/com/company/sample/app.properties) sets location of e-mail templates for password reset.
 
 Based on CUBA Platform 6.9.1
+
+## Issues
+Please use https://www.cuba-platform.com/discuss for discussion, support, and reporting problems coressponding to this sample.
