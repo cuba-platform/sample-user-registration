@@ -44,9 +44,15 @@ public class RegistrationServiceBean implements RegistrationService {
         User user = metadata.create(User.class);
         user.setLogin(login);
         user.setPassword(passwordEncryption.getPasswordHash(user.getId(), password));
+
+        // Note that the platform does not support the default group out of the box, so here we define the default group id and set it for the newly registered users.
         user.setGroup(group);
 
-        // Create a link to the role
+        /* Create a link to the role
+        * Here we programmatically set the default role.
+        * Another way is to set the default role by using the DB scripts. Set IS_DEFAULT_ROLE parameter to true in the insert script for the role.
+        * Also, this parameter might be changed in the Role Editor screen.
+         */
         UserRole userRole = metadata.create(UserRole.class);
         userRole.setUser(user);
         userRole.setRole(role);
