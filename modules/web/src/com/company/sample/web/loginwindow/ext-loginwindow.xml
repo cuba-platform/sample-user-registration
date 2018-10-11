@@ -8,20 +8,15 @@
         <vbox id="loginWrapper"
               spacing="true">
             <vbox id="loginMainBox">
-                <grid id="loginFormLayout">
-                    <rows>
-                        <row>
-                            <hbox colspan="2" align="MIDDLE_CENTER" spacing="true">
-                                <linkButton id="registerBtn"
-                                            caption="Register"
-                                            invoke="onRegisterBtnClick"/>
-                                <linkButton id="restorePasswordBtn"
-                                            caption="Restore password"
-                                            invoke="onRestorePasswordBtnClick"/>
-                            </hbox>
-                        </row>
-                    </rows>
-                </grid>
+                <hbox id="additionalActions" margin="true,false,false,false"
+                      colspan="2" align="MIDDLE_CENTER" spacing="true">
+                    <linkButton id="registerBtn"
+                                caption="Register"
+                                invoke="onRegisterBtnClick"/>
+                    <linkButton id="restorePasswordBtn"
+                                caption="Restore password"
+                                invoke="onRestorePasswordBtnClick"/>
+                </hbox>
             </vbox>
         </vbox>
     </layout>
