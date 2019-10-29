@@ -1,6 +1,5 @@
-
 buildscript {
-    ext.cubaVersion = '6.10.1'
+    ext.cubaVersion = '7.1.1'
     repositories {
         maven {
             url 'https://repo.cuba-platform.com/content/groups/work'
@@ -10,26 +9,22 @@ buildscript {
             }
 
         }
-
-        
     }
     dependencies {
         classpath "com.haulmont.gradle:cuba-plugin:$cubaVersion"
-
-        
     }
 }
 
-def globalModule = project(':app-global')
-def coreModule = project(':app-core')
-def guiModule = project(':app-gui')
-def webModule = project(':app-web')
-def polymerClientModule = project(':app-polymer-client')
+def modulePrefix = 'app'
+
+def globalModule = project(":${modulePrefix}-global")
+def coreModule = project(":${modulePrefix}-core")
+def webModule = project(":${modulePrefix}-web")
+def frontModule = project(":${modulePrefix}-front")
 
 def servletApi = 'javax.servlet:javax.servlet-api:3.1.0'
 
 
-apply(plugin: 'idea')
 apply(plugin: 'cuba')
 
 cuba {
@@ -45,15 +40,14 @@ cuba {
 
 dependencies {
     appComponent("com.haulmont.cuba:cuba-global:$cubaVersion")
+    appComponent('com.haulmont.addon.restapi:restapi-global:7.1.0')
 }
 
+def hsql = 'org.hsqldb:hsqldb:2.4.1'
 
-def hsql = 'org.hsqldb:hsqldb:2.2.9'
-
-configure([globalModule, coreModule, guiModule, webModule]) {
+configure([globalModule, coreModule, webModule]) {
     apply(plugin: 'java')
     apply(plugin: 'maven')
-    apply(plugin: 'idea')
     apply(plugin: 'cuba')
 
     dependencies {
@@ -71,11 +65,15 @@ configure([globalModule, coreModule, guiModule, webModule]) {
 }
 
 configure(globalModule) {
+    dependencies {
+        if (!JavaVersion.current().isJava8()) {
+            runtime('javax.xml.bind:jaxb-api:2.3.1')
+            runtime('org.glassfish.jaxb:jaxb-runtime:2.3.1')
+        }
+    }
     entitiesEnhancing {
         main { enabled = true }
     }
-    
-    
 }
 
 configure(coreModule) {
@@ -87,7 +85,7 @@ configure(coreModule) {
 
     dependencies {
         compile(globalModule)
-        provided(servletApi)
+        compileOnly(servletApi)
         jdbc(hsql)
         testRuntime(hsql)
 
@@ -95,7 +93,7 @@ configure(coreModule) {
 
     task cleanConf(description: 'Cleans up conf directory') {
         doLast {
-            def dir = new File(cuba.tomcat.dir, '/conf/app-core')
+            def dir = new File(cuba.tomcat.dir, "/conf/${modulePrefix}-core")
             if (dir.isDirectory()) {
                 ant.delete(includeemptydirs: true) {
                     fileset(dir: dir, includes: '**/*', excludes: 'local.app.properties')
@@ -105,8 +103,8 @@ configure(coreModule) {
     }
 
     task deploy(dependsOn: [assemble, cleanConf], type: CubaDeployment) {
-        appName = 'app-core'
-        appJars('app-global', 'app-core')
+        appName = "${modulePrefix}-core"
+        appJars(modulePrefix + '-global', modulePrefix + '-core')
     }
 
     task createDb(dependsOn: assembleDbScripts, description: 'Creates local database', type: CubaDbCreation) {
@@ -126,30 +124,16 @@ configure(coreModule) {
     }
 }
 
-configure(guiModule) {
-    dependencies {
-        compile(globalModule)
-
-    }
-
-    task deployConf(type: Copy) {
-        from file('src')
-        include "com/company/sample/**"
-        into "$cuba.tomcat.dir/conf/app"
-    }
-}
-
 configure(webModule) {
     configurations {
         webcontent
     }
 
     dependencies {
-        provided(servletApi)
-        compile(guiModule)
-
+        compileOnly(servletApi)
+        compile(globalModule)
     }
-    
+
     task webArchive(type: Zip) {
         from file("$buildDir/web")
         from file('web')
@@ -163,17 +147,17 @@ configure(webModule) {
     task deployConf(type: Copy) {
         from file('src')
         include "com/company/sample/**"
-        into "$cuba.tomcat.dir/conf/app"
+        into "$cuba.tomcat.dir/conf/${modulePrefix}"
     }
 
     task clearMessagesCache(type: CubaClearMessagesCache) {
-        appName = 'app'
+        appName = "${modulePrefix}"
     }
     deployConf.dependsOn clearMessagesCache
 
-    task cleanConf(description: 'Cleans up conf directory')  {
+    task cleanConf(description: 'Cleans up conf directory') {
         doLast {
-            def dir = new File(cuba.tomcat.dir, '/conf/app')
+            def dir = new File(cuba.tomcat.dir, "/conf/${modulePrefix}")
             if (dir.isDirectory()) {
                 ant.delete(includeemptydirs: true) {
                     fileset(dir: dir, includes: '**/*', excludes: 'local.app.properties')
@@ -183,21 +167,19 @@ configure(webModule) {
     }
 
     task deploy(dependsOn: [assemble, cleanConf], type: CubaDeployment) {
-        appName = 'app'
-        appJars('app-global', 'app-gui', 'app-web')
+        appName = "${modulePrefix}"
+        appJars(modulePrefix + '-global', modulePrefix + '-web')
     }
 }
 
-configure(polymerClientModule) {
+configure(frontModule) {
     apply(plugin: 'cuba')
-    apply(plugin: 'idea')
-    
 
-    def frontAppDir = 'app-front'
+    def frontAppDir = "${modulePrefix}-front"
 
     task installBowerPackages(type: NodeTask, dependsOn: npmInstall) {
         script = file("node_modules/bower/bin/bower")
-        args = ['install','-F']
+        args = ['install', '-F']
         inputs.file "bower.json"
         outputs.dir "bower_components"
     }
@@ -222,17 +204,14 @@ configure(polymerClientModule) {
     }
 }
 
-
-
-
-task undeploy(type: Delete, dependsOn: ':app-web:cleanConf') {
+task undeploy(type: Delete, dependsOn: ":${modulePrefix}-web:cleanConf") {
     delete("$cuba.tomcat.dir/shared")
-    delete("$cuba.tomcat.dir/webapps/app-core")
-    delete("$cuba.tomcat.dir/webapps/app")
-    delete("$cuba.tomcat.dir/webapps/app-front")
+    delete("$cuba.tomcat.dir/webapps/${modulePrefix}-core")
+    delete("$cuba.tomcat.dir/webapps/${modulePrefix}")
+    delete("$cuba.tomcat.dir/webapps/${modulePrefix}-front")
 }
 
-task restart(dependsOn: ['stop', ':app-core:deploy', ':app-web:deploy'], description: 'Redeploys applications and restarts local Tomcat') {
+task restart(dependsOn: ['stop', ":${modulePrefix}-core:deploy", ":${modulePrefix}-web:deploy"], description: 'Redeploys applications and restarts local Tomcat') {
     doLast {
         ant.waitfor(maxwait: 6, maxwaitunit: 'second', checkevery: 2, checkeveryunit: 'second') {
             not {
@@ -242,9 +221,3 @@ task restart(dependsOn: ['stop', ':app-core:deploy', ':app-web:deploy'], descrip
         start.execute()
     }
 }
-
-task wrapper(type: Wrapper) {
-    gradleVersion = '4.3.1'
-}
-
-apply from: 'extra.gradle'

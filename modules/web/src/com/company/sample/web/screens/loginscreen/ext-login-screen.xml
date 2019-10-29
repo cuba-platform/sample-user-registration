@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        extends="/com/haulmont/cuba/web/app/login/login-screen.xml">
+    <layout>
+        <vbox id="loginWrapper"
+              spacing="true">
+            <vbox id="loginMainBox">
+                <hbox id="additionalActions"
+                      align="MIDDLE_CENTER"
+                      colspan="2"
+                      margin="true,false,false,false"
+                      spacing="true">
+                    <linkButton id="registerBtn"
+                                caption="Register"/>
+                    <linkButton id="restorePasswordBtn"
+                                caption="Restore password"/>
+                </hbox>
+            </vbox>
+        </vbox>
+    </layout>
+</window>

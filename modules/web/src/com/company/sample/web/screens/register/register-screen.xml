@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<window xmlns="http://schemas.haulmont.com/cuba/window.xsd"
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
         caption="msg://caption"
-        class="com.company.sample.web.register.RegisterScreen"
-        messagesPack="com.company.sample.web.register">
+        messagesPack="com.company.sample.web.screens.register">
     <dialogMode width="400"/>
     <layout>
         <grid align="MIDDLE_CENTER"
@@ -25,11 +24,9 @@
                           spacing="true">
                         <button id="okBtn"
                                 align="TOP_RIGHT"
-                                caption="OK"
-                                invoke="onOkBtnClick"/>
+                                caption="OK"/>
                         <button id="cancelBtn"
-                                caption="Cancel"
-                                invoke="onCancelBtnClick"/>
+                                caption="Cancel"/>
                     </hbox>
                 </row>
             </rows>
