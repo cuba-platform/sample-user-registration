@@ -8,6 +8,9 @@ This is a simple example of using anonymous access to an application, i.e. takin
 
 * [RestorePasswordScreen](https://github.com/cuba-platform/sample-user-registration/blob/master/modules/web/src/com/company/sample/web/screens/restorepassword/RestorePasswordScreen.java) generates a new password for an existing user and sends e-mail message with the generated password.
 
+* [RegistrationService](https://github.com/cuba-platform/sample-user-registration/blob/master/modules/global/src/com/company/sample/service/RegistrationService.java) is a simple service that provides user registration functionality. It can be created manually or simply using Studio (see how to [create](https://doc.cuba-platform.com/manual-7.1/service_creation.html) and [using](https://doc.cuba-platform.com/manual-7.1/service_import.html) services).
+
+
 * [app.properties](https://github.com/cuba-platform/sample-user-registration/blob/master/modules/core/src/com/company/sample/app.properties) sets location of e-mail templates for password reset.
 
 Based on CUBA Platform 7.1
