@@ -9,12 +9,12 @@
             <columns count="2"/>
             <rows>
                 <row>
-                    <label value="Login"/>
+                    <label value="Login" align="MIDDLE_LEFT"/>
                     <textField id="loginField"
                                required="true"/>
                 </row>
                 <row>
-                    <label value="Password"/>
+                    <label value="Password" align="MIDDLE_LEFT"/>
                     <passwordField id="passwordField"
                                    required="true"/>
                 </row>
