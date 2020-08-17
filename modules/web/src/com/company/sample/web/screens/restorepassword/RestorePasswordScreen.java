@@ -51,7 +51,7 @@ public class RestorePasswordScreen extends Screen {
             LoadContext<User> lc = LoadContext.create(User.class);
             lc.setView(View.MINIMAL);
             lc.setQueryString("select u from sec$User u where u.loginLowerCase = :login and (u.active = true or u.active is null)")
-                    .setParameter("login", loginField.getValue());
+                    .setParameter("login", loginField.getValue().toLowerCase());
 
             User targetUser = dataManager.load(lc);
             if (targetUser == null) {
